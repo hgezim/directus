@@ -42,33 +42,36 @@ watch(
 
 async function loadImage() {
 	try {
-		const res = await api.get(props.src, {
-			responseType: 'arraybuffer',
-			params: {
-				download: true,
-			},
-		});
+		// const res = await api.get(props.src, {
+		// 	responseType: 'arraybuffer',
+		// 	params: {
+		// 		download: true,
+		// 	},
+		// });
 
-		if (res.headers['content-type'].startsWith('image') === false) return;
+		console.log('%cv-image.vue line:52 props.src', 'color: #007acc;', props.src);
 
-		const contentType = res.headers['content-type'];
+		// if (res.headers['content-type'].startsWith('image') === false) return;
 
-		const data = new Uint8Array(res.data);
+		// const contentType = res.headers['content-type'];
+
+		// const data = new Uint8Array(res.data);
 
 		// 5mb
-		if (data.length > 1048576 * 5) {
-			emit('error', new Error('Image too big to render'));
-			return;
-		}
+		// if (data.length > 1048576 * 5) {
+		// 	emit('error', new Error('Image too big to render'));
+		// 	return;
+		// }
 
 		let raw = '';
 
-		data.forEach((byte) => {
-			raw += String.fromCharCode(byte);
-		});
+		// data.forEach((byte) => {
+		// 	raw += String.fromCharCode(byte);
+		// });
 
-		const base64 = window.btoa(raw);
-		srcData.value = `data:${contentType};base64,${base64}`;
+		// const base64 = window.btoa(raw);
+		// srcData.value = `data:${contentType};base64,${base64}`;
+		srcData.value = props.src;
 	} catch (err) {
 		emit('error', err);
 	}
