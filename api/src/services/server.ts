@@ -9,7 +9,6 @@ import { getCache } from '../cache.js';
 import getDatabase, { hasDatabaseConnection } from '../database/index.js';
 import env from '../env.js';
 import logger from '../logger.js';
-import getMailer from '../mailer.js';
 import { rateLimiterGlobal } from '../middleware/rate-limiter-global.js';
 import { rateLimiter } from '../middleware/rate-limiter-ip.js';
 import { SERVER_ONLINE } from '../server.js';
@@ -133,7 +132,7 @@ export class ServerService {
 					testRateLimiter(),
 					testRateLimiterGlobal(),
 					testStorage(),
-					testEmail(),
+					// testEmail(),
 				]))
 			),
 		};
@@ -396,28 +395,6 @@ export class ServerService {
 						checks[`storage:${location}:responseTime`]![0]!.status = 'warn';
 					}
 				}
-			}
-
-			return checks;
-		}
-
-		async function testEmail(): Promise<Record<string, HealthCheck[]>> {
-			const checks: Record<string, HealthCheck[]> = {
-				'email:connection': [
-					{
-						status: 'ok',
-						componentType: 'email',
-					},
-				],
-			};
-
-			const mailer = getMailer();
-
-			try {
-				await mailer.verify();
-			} catch (err: any) {
-				checks['email:connection']![0]!.status = 'error';
-				checks['email:connection']![0]!.output = err;
 			}
 
 			return checks;
