@@ -109,7 +109,7 @@ export class AssetsService {
 		const type = file.type;
 		const transforms = TransformationUtils.resolvePreset(transformation, file);
 
-		if (type && transforms.length > 0 && SUPPORTED_IMAGE_TRANSFORM_FORMATS.includes(type)) {
+		if (type && transforms.length > 0 && SUPPORTED_IMAGE_TRANSFORM_FORMATS.includes(type) && !env['ASSETS_TRANSFORM_OFF']) {
 			const maybeNewFormat = TransformationUtils.maybeExtractFormat(transforms);
 
 			const assetFilename =
